@@ -5,6 +5,10 @@ sys.path.append(str(Path(__file__).resolve().parents[1]
 from datetime import datetime, timedelta
 from atpython import Job
 def main():
-	Job('touch ~/dev/atpython/ayylmao', datetime.now() + timedelta(seconds = 5)).schedule()
+	j = Job('touch ~/dev/atpython/ayylmao', datetime.now() + timedelta(minutes = 1))
+	print(j.command)
+	print(j.at)
+	j.schedule()
+	return
 if __name__ == '__main__':
 	main()
