@@ -5,6 +5,7 @@ class Job(object):
 		self.command = command
 		self.at = at
 		self.scheduled = False
+		self.number = -1
 	def schedule(self):
 		cmd = self.command
 		t = self.at.strftime('%Y%m%d%H%M.%S')
