@@ -6,8 +6,10 @@ class Job(object):
 		self.at = at
 		self.scheduled = False
 		self.number = -1
+		self.raw = None
 	def schedule(self):
-		cmd = self.command
-		t = self.at.strftime('%Y%m%d%H%M.%S')
-		run(('at', '-t', t.encode()), input = cmd.encode())
-		self.scheduled = True
+		if not self.scheduled:
+			cmd = self.command
+			t = self.at.strftime('%Y%m%d%H%M.%S')
+			run(('at', '-t', t.encode()), input = cmd.encode())
+			self.scheduled = True
