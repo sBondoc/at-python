@@ -1,10 +1,28 @@
-from pathlib import Path
-from datetime import datetime
-from subprocess import PIPE, run
-from atpython.job import Job
-from atpython.util import queue_dict
-def get_queue() -> list[Job]:
+import datetime
+import subprocess
+import atpython
+def queue() -> list[atpython.job.Job]:
+	atq = subprocess.run(
+			('atq'),
+			encoding = 'utf-8',
+			stdout = subprocess.PIPE) \
+		.stdout \
+		.split('\n')
 	jobs = []
-	for j in queue_dict():
-		jobs.append(Job(**j))
+	for line in [l for l in atq if l != ""]:
+		data = line.split()
+		number = int(data[0])
+		at = datetime.datetime.strptime(
+			' '.join(data[1:6]),
+			'%a %b %d %H:%M:%S %Y')
+		command = subprocess.run(
+				('at', '-c', str(number)),
+				encoding = 'utf-8',
+				stdout = subprocess.PIPE) \
+			.stdout \
+			.split('\n')[-2]
+		jobs.append(atpython.job.Job(
+				number = number,
+				command = command,
+				at = at))
 	return jobs

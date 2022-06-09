@@ -1,8 +1,13 @@
-from datetime import date, datetime, time
-from subprocess import run
-from atpython.util import queue_dict
+import datetime
+import subprocess
+import atpython
 class Job(object):
-	def __init__(self, command: str, at: datetime, scheduled: bool = False, number: int = -1, raw: bytes = None, **kwargs):
+	def __init__(	self,
+			command: str,
+			at: datetime.datetime,
+			scheduled: bool = False,
+			number: int = -1,
+			raw: bytes = None):
 		self.command = command
 		self.at = at
 		self.scheduled = scheduled
@@ -12,8 +17,8 @@ class Job(object):
 		if not self.scheduled:
 			cmd = self.command
 			t = self.at.strftime('%Y%m%d%H%M.%S')
-			run(('at', '-t', t.encode()), input = cmd.encode())
+			subprocess.run(
+				('at', '-t', t.encode()),
+				input = cmd.encode())
 			self.scheduled = True
-			self.number = _get_latest()
-def _get_latest() -> int:
-	return max([j['number'] for j in queue_dict()])
+			print(atpython.queue.queue())

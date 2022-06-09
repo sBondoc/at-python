@@ -1,2 +1,2 @@
-from atpython.job import *
-from atpython.queue import *
+import atpython.job
+import atpython.queue
