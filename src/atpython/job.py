@@ -20,5 +20,8 @@ class Job(object):
 			subprocess.run(
 				('at', '-t', t.encode()),
 				input = cmd.encode())
-			self.scheduled = True
-			print(atpython.queue.queue())
+			print(self)
+			self = max(
+				atpython.queue.queue(),
+				key = lambda j: j.number)
+			print(self)
