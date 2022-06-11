@@ -23,3 +23,5 @@ def details(id: int) -> bytes:
 	return run(('at', '-c', str(id)), stdout = PIPE).stdout
 def schedule(command: bytes, at: datetime):
 	run(('at', '-t', at.strftime('%Y%m%d%H%M.%S')), input = command)
+def unschedule(id: int):
+	run(('atrm', id))
